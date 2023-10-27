@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>타자 연습</title>
+    <style>
+        #original-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #user-input {
+            font-size: 24px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        #result {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>타자 연습</h1>
+        <p id="original-text">여기에 연습할 문장이 표시됩니다.</p>
+        <input type="text" id="user-input" oninput="calculateSpeedAndAccuracy()">
+        <div id="result">
+            <p id="speed">속도: 0 글자/분</p>
+            <p id="accuracy">정확도: 0%</p>
+        </div>
+    </div>
+    <script>
+        
+        // 연습 문장들
+        var originalTexts = [
+        'survey', 'interview', 'exhibition', 'conference', 'available', 'annual', 'equipment', 'department', 'refund',
+        'receipt', 'schedule', 'meeting', 'customer', 'employee', 'actually', 'accordingto', 'change', 'contact', 'purchase',
+        'provide', 'building', 'probably', 'delay', 'opportunity', 'agree', 'invoice', 'appointment', 'increase', 'piece', 'participate',
+        'collect', 'once', 'currently', 'process', 'problem', 'experience', 'tour', 'while', 'center', 'supervisor', 'suggestion', 'coupon',
+        'receive', 'participant', 'notethat', 'confirm', 'meet', 'reduce', 'concern', 'way', 'special', 'prepare', 'renovation', 'early', 'view',
+        'return', 'approve', 'budget', 'team', 'recently', 'shop', 'fine', 'home', 'reservation', 'additional', 'medical', 'move', 'resource', 'show',
+        'design', 'total', 'presentation', 'bring', 'improve', 'several', 'news', 'service', 'through', 'until', 'passenger', 'produce', 'allow',
+        'representative', 'check', 'leave', 'issue', 'price', 'last', 'promote', 'hold', 'idea', 'industry', 'feature', 'replacement', 'pay', 'update',
+        'director', 'hire', 'floor', 'course', 'museum', 'recommend', 'great', 'install', 'member', 'size', 'management', 'review', 'sincerely', 'logo',
+        'revise', 'corporate', 'construction', 'deadline', 'sign', 'replace', 'find', 'register', 'merchandise', 'important', 'open'
+        ];
+
+        // 현재 문장 인덱스
+        var currentTextIndex = 0;
+        
+        // 시작 시간
+        var startTime = new Date().getTime();
+        
+        // 문장 표시 요소
+        var originalText = document.getElementById('original-text');
+
+        // 무작위로 첫 번째 문장 표시
+        originalText.innerText = getRandomText();
+        
+        // 무작위 문장 선택
+        function getRandomText() {
+            var randomIndex = Math.floor(Math.random() * originalTexts.length);
+            return originalTexts[randomIndex];
+        }
+
+        // 입력에 따른 정확도, 속도 계산
+        function calculateSpeedAndAccuracy() {
+            // 현재 시간
+            var endTime = new Date().getTime();
+            // 결과 시간 (단위는 분)
+            var elapsedTime = (endTime - startTime) / 1000 / 60; // 분 단위로 변환
+            // 입력 값
+            var userInput = document.getElementById('user-input').value;
+            // 정확도 계산
+            var accuracy = calculateAccuracy(userInput, originalText.innerText);
+            // 속도 계산
+            var speed = calculateSpeed(userInput, elapsedTime);
+            // 정확도, 속도 값 표시
+            document.getElementById('speed').innerText = '속도: ' + speed + ' 글자/분';
+            document.getElementById('accuracy').innerText = '정확도: ' + accuracy + '%';
+
+            // 사용자 입력이 정확한 경우
+            if (userInput === originalText.innerText) {
+                // 성공 메시지 출력
+                alert("정확하게 입력하셨습니다! 다음 문장으로 넘어갑니다.");
+                // 다음 문장 이동
+                currentTextIndex = (currentTextIndex + 1) % originalTexts.length;
+                // 다음 문장 표시
+                originalText.innerText = getRandomText();
+                // 사용자 입력 초기화
+                document.getElementById('user-input').value = "";
+                // 시작 시간 업데이트
+                startTime = new Date().getTime();
+            }
+        }
+        // 정확도 계산
+        function calculateAccuracy(userInput, originalText) {
+            var correctChars = 0;
+            for (var i = 0; i < userInput.length; i++) {
+                if (userInput[i] === originalText[i]) {
+                    correctChars++;
+                }
+            }
+            return Math.round(correctChars / originalText.length * 100);
+        }
+        // 속도 계산
+        function calculateSpeed(userInput, elapsedTime) {
+            var words = userInput.length;
+            var speed = Math.round(words / elapsedTime);
+            return speed;
+        }
+    </script>
+</body>
+</html>
