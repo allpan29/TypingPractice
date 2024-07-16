@@ -1,2 +1,2 @@
 # TypingPractice
-# made for JavaScript Study
+# made for Study
