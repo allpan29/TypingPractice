@@ -1,1 +1,2 @@
-# allpan30.github.io
+# TypingPractice
+# made for JavaScript Study
